@@ -1,0 +1,5 @@
+---
+-   name: Provision Server
+    hosts: minikube
+    roles:
+      - minikube
