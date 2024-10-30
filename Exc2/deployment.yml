@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+# имя деплоймента для работы с ним
+metadata:
+  name: scaletestapp
+spec:
+  replicas: 1
+  # данный деплоймент управляет подами у которых есть лейбл app=scaletestapp
+  selector:
+    matchLabels:
+      app: scaletestapp
+  # при создании пода из деплоймента ему будет указан лейбл app=scaletestapp
+  template:
+    metadata:
+      labels:
+        app: scaletestapp
+    spec:
+      containers:
+        - name: scaletestapp
+          image: shestera/scaletestapp
+          ports:
+            - containerPort: 8080
+          resources:
+            # требуем для работы
+            requests:
+              memory: "10Mi"
+              cpu: "250m"
+            # выше какой границы не допускаем
+            limits:
+              memory: "20Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+  # чтобы не плодилось много ReplicaSet - нам достаточно двух последних (по умолчанию 10)
+  revisionHistoryLimit: 2

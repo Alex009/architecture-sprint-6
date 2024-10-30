@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+# имя сервиса
+metadata:
+  name: scaletestapp-service
+spec:
+  # к каким подам привязываем сервис. То есть к тем где лейбл app=scaletestapp
+  selector:
+    app: scaletestapp
+  ports:
+    - protocol: TCP
+      # в кластере доступен по этому порту
+      port: 8080
+      # внутри пода (в контейнере) попадаем на этот порт
+      targetPort: 8080
+  type: ClusterIP
