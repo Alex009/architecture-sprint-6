@@ -412,7 +412,7 @@ query {
 
 # Задание 6 - Настройка Rate Limiting
 
-
+Конфигурация с настройкой Rate Limiting - [config.nginx](Exc6/config.nginx)
 
 # Заметки
 

@@ -1,0 +1,31 @@
+http {
+   # Настройка upstream для балансировки нагрузки
+   upstream backend_servers {
+       server backend1.example.com;
+       server backend2.example.com;
+       server backend3.example.com;
+   }
+
+   # Определение зоны для ограничения запросов. Ограничиваем по IP адресу
+   limit_req_zone $binary_remote_addr zone=api_limit:10m rate=10r/m;
+
+   server {
+       listen 80;
+
+       location / {
+           # Применение лимита запросов к текущему location
+           # Допускаем всплески до 5 дополнительных запросов
+           limit_req zone=api_limit burst=5 nodelay;
+           proxy_pass http://backend_servers;
+
+           # Добавление заголовков для обработки ошибки 429
+           error_page 429 = @rate_limited;
+       }
+
+       # Настройка обработки ошибки 429 (Too Many Requests)
+       location @rate_limited {
+           add_header Retry-After 60;
+           return 429;
+       }
+   }
+}
