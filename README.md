@@ -220,6 +220,12 @@ minikube dashboard
 
 Результаты автоскейлинга доступны в [RESULTS.md](Exc2/RESULTS.md)
 
+# Задание 3 - Переход на Event-Driven архитектуру
+
+Анализ текущей архитектуры доступен в [документе](Exc3/ANALYZE.md).
+
+Обновленная диаграмма - [файл](Exc3/InsureTech_C4_%D1%81ontainer-diagram-to-be.drawio.xml).
+
 # Заметки
 
 ## minikube на apple silicon
